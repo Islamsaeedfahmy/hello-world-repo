@@ -1,0 +1,12 @@
+name: Hallo world
+
+on: push 
+
+jobs:
+  hallo-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: echo Namen
+        run: echo "Mein name ist Islam"
+      - name: echo Alter
+        run: echo "Ich bin 33 Jahre alt"
