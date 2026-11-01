@@ -22,6 +22,6 @@ jobs:
               TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
 
             run: |
-              curl -X POST "$WEBHOOK_URL" \
+              curl -X POST "$TEAMS_WEBHOOK_URL" \
                 -H "Content-Type: application/json" \
                 -d '{"text":"Hello Teams! GitHub Actions is working successfully."}'
