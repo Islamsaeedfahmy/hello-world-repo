@@ -1,6 +1,8 @@
 name: Hello World
 
 on: push
+env:
+    Name: Hallo Welt!
 
 jobs:
     hello-job:
@@ -33,21 +35,21 @@ jobs:
           - name: Send notification to Teams
             env:
               TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
-              PIPELINE_RESULT: ${{ needs.build.result }}
-              REPOSITORY: ${{ github.repository }}
-              BRANCH: ${{ github.ref_name }}
-              RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+              # PIPELINE_RESULT: ${{ needs.build.result }}
+              # REPOSITORY: ${{ github.repository }}
+              # BRANCH: ${{ github.ref_name }}
+              # RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
             run: |
-              MESSAGE="GitHub Actions Pipeline: ${PIPELINE_RESULT}
-              Repository: ${REPOSITORY}
-              Branch: ${BRANCH}
-              Run: ${RUN_URL}"
+                echo "${{env.Name}}
+              # MESSAGE="GitHub Actions Pipeline: ${PIPELINE_RESULT}
+              # Repository: ${REPOSITORY}
+              # Branch: ${BRANCH}
+              # Run: ${RUN_URL}"
 
-              PAYLOAD=$(jq -n --arg text "$MESSAGE" \
-                '{text: $text}')
+              # PAYLOAD=$(jq -n --arg text "$MESSAGE" \
+              #   '{text: $text}')
 
               curl --fail-with-body -X POST \
-            -H "Content-Type: application/json" \
-            -d "$PAYLOAD" \
-            "$TEAMS_WEBHOOK_URL"
+                -H "Content-Type: application/json" \
+                "$TEAMS_WEBHOOK_URL"
