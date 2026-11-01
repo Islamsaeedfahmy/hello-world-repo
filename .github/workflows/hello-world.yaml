@@ -13,43 +13,15 @@ jobs:
             - name: echo name
               run: echo " Mein name ist Islam"
             
-    build:
-        runs-on: ubuntu-latest
-
-        steps:
-          - name: Checkout
-            uses: actions/checkout@v4
-
-          - name: Run Tests
-            run: echo "Running tests..."
-        
-          - name: Build Application
-            run: echo "Building application..."
-
+   
     notify-teams:
         runs-on: ubuntu-latest
-        needs: build
-        if: always()
-
         steps:
           - name: Send notification to Teams
             env:
               TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
-              # PIPELINE_RESULT: ${{ needs.build.result }}
-              # REPOSITORY: ${{ github.repository }}
-              # BRANCH: ${{ github.ref_name }}
-              # RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
             run: |
-                echo "${{env.Name}}
-              # MESSAGE="GitHub Actions Pipeline: ${PIPELINE_RESULT}
-              # Repository: ${REPOSITORY}
-              # Branch: ${BRANCH}
-              # Run: ${RUN_URL}"
-
-              # PAYLOAD=$(jq -n --arg text "$MESSAGE" \
-              #   '{text: $text}')
-
-              curl --fail-with-body -X POST \
+              curl -X POST "$WEBHOOK_URL" \
                 -H "Content-Type: application/json" \
-                "$TEAMS_WEBHOOK_URL"
+                -d '{"text":"Hello Teams! GitHub Actions is working successfully."}'
